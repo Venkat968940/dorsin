@@ -9,25 +9,26 @@ export default function ComponentOverride(theme) {
         root: {
           borderRadius: "4px",
           textTransform: "capitalize",
-          padding:'10px 20px',
+          padding: "10px 20px",
+          transition: "transform 0.3s ease",
+          "&:hover": {
+            transform: "translateY(-10px)",
+          },
           "&.MuiButton-contained": {
             backgroundColor: primary.main,
             color: common.white,
             fontFamily: "poppins-medium",
-            transition: "transform 0.3s ease",
-            "&:hover": {
-              transform: "translateY(-10px)",
-            },
           },
           "&.MuiButton-outlined": {
             backgroundColor: "#fff",
-            color: primary.ContrastText,
+            color: "#000",
             border: `0.4px solid ${grey[500]}`,
-            fontWeight: 600,
+            // fontWeight: 600,
+            fontSize: 14,
             "&:hover": {
-              backgroundColor: common.white,
-              border: `2px solid ${primary.main}`,
-              color: primary.main,
+              // backgroundColor: common.white,
+              // border: `2px solid ${primary.main}`,
+              // color: primary.main,
             },
           },
         },
@@ -43,15 +44,11 @@ export default function ComponentOverride(theme) {
         },
       },
     },
-    MuiTextField:{
-      defaultProps:{
-
-      },
+    MuiTextField: {
+      defaultProps: {},
       styleOverrides: {
-        root:{
-       
-        }
-      }
-    }
+        root: {},
+      },
+    },
   };
 }

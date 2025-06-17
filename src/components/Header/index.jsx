@@ -1,19 +1,20 @@
+import { Menu } from "@mui/icons-material";
 import {
   AppBar,
-  Toolbar,
-  Typography,
-  useScrollTrigger,
-  Slide,
   Box,
   Button,
   IconButton,
-  useTheme,
+  Toolbar,
+  Typography,
   useMediaQuery,
+  useScrollTrigger,
+  useTheme,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { cloneElement, Fragment, useState } from "react";
+import { cloneElement, Fragment, useContext, useState } from "react";
 import useActiveSection from "../../utils/useActiveSection";
-import { Menu } from "@mui/icons-material";
+import FileContext from "../../utils/FileContext";
+import { useNavigate } from "react-router-dom";
 
 // ElevationScroll component to manage elevation behavior on scroll
 function ElevationScroll(props) {
@@ -57,6 +58,9 @@ ElevationScroll.propTypes = {
 const Header = ({ sectionsRef, props }) => {
   const [open, setOpen] = useState(false);
   const { activeSection, setActiveSection } = useActiveSection();
+  const navigate = useNavigate();
+
+  const { setUploadedFile } = useContext(FileContext);
 
   const scrollToSection = (ref, sectionId) => {
     ref.current.scrollIntoView({
@@ -92,17 +96,21 @@ const Header = ({ sectionsRef, props }) => {
       </Typography>
     );
   });
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Optionally, preview the file or do something with it
+      const fileURL = URL.createObjectURL(file);
+      setUploadedFile(fileURL);
+      console.log("File:", file, "fileURL:", fileURL);
+      navigate(`/${file.name}`)
+    }
+  };
   return (
     <Fragment>
       <ElevationScroll {...props}>
-        <AppBar
-          sx={
-            {
-              // p: '16px 30px'
-            }
-          }
-          position="sticky"
-        >
+        <AppBar position="sticky">
           <Toolbar sx={{ ml: 2.5 }}>
             <Box
               sx={{
@@ -142,16 +150,36 @@ const Header = ({ sectionsRef, props }) => {
                 >
                   {NavItems}
                 </Box>
-                <Button
-                  variant="contained"
-                  sx={{
-                    display: { xs: "none", lg: "flex" },
-                    borderRadius: 25,
-                    mr: 3,
-                  }}
-                >
-                  Try it Free
-                </Button>
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      display: { xs: "none", lg: "flex" },
+                      borderRadius: 25,
+                    }}
+                  >
+                    Try it Free
+                  </Button>
+                  <input
+                    type="file"
+                    accept="application/pdf" // Ensure it's only PDFs
+                    style={{ display: "none" }}
+                    id="upload-pdf"
+                    onChange={handleFileChange}
+                  />
+                  <Button
+                    variant="contained"
+                    sx={{
+                      display: { xs: "none", lg: "flex" },
+                      borderRadius: 25,
+                    }}
+                    onClick={() =>
+                      document.getElementById("upload-pdf").click()
+                    }
+                  >
+                    Upload PDF
+                  </Button>
+                </Box>
               </Box>
 
               <IconButton

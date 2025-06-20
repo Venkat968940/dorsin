@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 const Home = lazy(() => import("../pages/Home"));
 const PDFViewer = lazy(() => import("../pages/PDFViewer"));
+const MobilePDFViewer = lazy(() => import("../pages/PDFViewer/MobilePdfViewer"));
 
 const Routes = createBrowserRouter([
   {

@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { cloneElement, Fragment, useContext, useState } from "react";
-import useActiveSection from "../../utils/useActiveSection";
 import FileContext from "../../utils/FileContext";
+import useActiveSection from "../../utils/useActiveSection";
 import { useNavigate } from "react-router-dom";
 
 // ElevationScroll component to manage elevation behavior on scroll
@@ -56,9 +56,9 @@ ElevationScroll.propTypes = {
 
 // Header component with dynamic scroll behavior
 const Header = ({ sectionsRef, props }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { activeSection, setActiveSection } = useActiveSection();
-  const navigate = useNavigate();
 
   const { setUploadedFile } = useContext(FileContext);
 
@@ -104,7 +104,7 @@ const Header = ({ sectionsRef, props }) => {
       const fileURL = URL.createObjectURL(file);
       setUploadedFile(fileURL);
       console.log("File:", file, "fileURL:", fileURL);
-      navigate(`/${file.name}`)
+      navigate(`/${file?.name}`);
     }
   };
   return (
@@ -198,6 +198,16 @@ const Header = ({ sectionsRef, props }) => {
               }}
             >
               {NavItems}
+              <Button
+                variant="contained"
+                sx={{
+                  borderRadius: 25,
+                  width:'fit-content'
+                }}
+                onClick={() => document.getElementById("upload-pdf").click()}
+              >
+                Upload PDF
+              </Button>
             </Box>
           )}
         </AppBar>

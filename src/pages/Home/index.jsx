@@ -30,6 +30,8 @@ const HomePage = () => {
       </div>
 
       <Header sectionsRef={sectionsRef} />
+      {/* <Toolbar />
+      {file && <PDFViewer file={file} />} */}
       <Box
         ref={sectionsRef.services}
         id="services"
